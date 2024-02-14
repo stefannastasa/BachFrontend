@@ -1,0 +1,17 @@
+.main-content {
+    --ion-padding-top: 25vh;
+    padding-top: 20vh;
+}
+
+.input-icon {
+    margin-right: 8px;
+    /* Adjust as needed for spacing between icon and input */
+    font-size: 25px; /* Adjust the icon size */
+    align-self: center; /* Center the icon vertically */
+}
+
+.login-component {
+    --ion-item-background: transparent;
+    text-align: center;
+
+}

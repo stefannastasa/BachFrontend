@@ -1,0 +1,7 @@
+{
+  "name": "handnotes",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
