@@ -14,6 +14,7 @@ import {arrowUp} from "ionicons/icons";
 import useWindowDimensions from "../../device/window/WindowDims";
 import {AuthenticationContext, AuthState} from "../auth/context/AuthProvider";
 import {NoteService} from "../../utils/api/noteApi";
+import {Virtuoso} from "react-virtuoso";
 
 function Gallery(){
     const content = useRef<HTMLIonContentElement>(null);
@@ -53,16 +54,9 @@ function Gallery(){
                 </IonToolbar>
                 <NoteSearch/>
             </IonHeader>
-            <IonContent color="secondary" ref={content} scrollEvents={true} onIonScroll={ (ev) => onScrollContent(ev.detail.currentY)}>
+            <IonContent scrollY={false} color="secondary" ref={content}>
                 <NoteGrid/>
             </IonContent>
-            {scrolled &&
-                <IonFab vertical="bottom" horizontal="end">
-                    <IonFabButton onClick={onScrollUp}>
-                        <IonIcon icon={arrowUp}></IonIcon>
-                    </IonFabButton>
-                </IonFab>
-            }
             <NoteModal></NoteModal>
 
 

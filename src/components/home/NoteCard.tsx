@@ -1,8 +1,9 @@
-import {IonCard, IonText} from "@ionic/react";
+import {IonCard, IonImg, IonText} from "@ionic/react";
 import React, {useContext} from "react";
 import useWindowDimensions from "../../device/window/WindowDims";
 import {HomeStateContext} from "./contexts/HomeStateProvider";
 import {Note} from "../../utils/model/Note";
+import {Directory, Filesystem} from "@capacitor/filesystem";
 
 type setState = (stat:string) => void;
 
@@ -22,14 +23,16 @@ const NoteCard: React.FC<NoteCardProps> = (props) => {
             setNoteState(note);
             setModalState(true);
         }
-        console.log(`Note clicked! ${note}`);
+        console.log(`Note clicked! ${note.imageUrls[0]}`);
 
     }
 
     return (
-        <div style={{textAlign: 'center', maxWidth:'180px'}} onClick={handleOnClick} >
-            <IonCard color="tertiary" style={{height: '210px', maxWidth:'160px'}} >
+        <div style={{textAlign: 'center', width:'inherit'}} onClick={handleOnClick} >
+            <IonCard color="tertiary" style={{height: '210px', width:"160px", alignSelf:'center'}} >
+                <IonImg src={note.imageUrls[0]} >
 
+                </IonImg>
             </IonCard>
             <IonText>
                 {note.title}

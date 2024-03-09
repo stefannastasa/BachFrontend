@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'handnotes',
   webDir: 'dist',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'http'
   }
 };
 

@@ -75,7 +75,7 @@ function NoteModal () {
                             Maecenas sagittis diam id enim dignissim, et aliquet elit hendrerit. Nunc fringilla facilisis dui in dignissim. Nam in vehicula ligula. Nullam pulvinar libero ut vulputate imperdiet. Vivamus iaculis risus metus, nec consectetur sem congue nec. Nam ac mi id felis blandit iaculis. Nulla sed eros eros. Sed vestibulum egestas feugiat. Nunc non tempus mi. Duis at consequat orci, nec tristique urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam sed diam quis mi rhoncus ornare. Etiam malesuada purus vitae dignissim hendrerit.</p>
                     </IonText> }
                     {!content &&
-                        <IonImg src="https://imgs.search.brave.com/wZfu-VOxy0HE8pijujD6zqTafjvQSPRFt0SUjNW8Lkk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9vcGVu/dGV4dGJjLmNhL2Fj/Y2Vzc2liaWxpdHl0/b29sa2l0L3dwLWNv/bnRlbnQvdXBsb2Fk/cy9zaXRlcy8zMTcv/MjAyMC8wOS9UaGUt/Q29ybmVsbC1NZXRo/b2Qtc2NhbGVkLmpw/Zw">
+                        <IonImg src={noteState?.imageUrls[0]}>
 
                         </IonImg>
                     }

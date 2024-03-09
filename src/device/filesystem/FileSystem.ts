@@ -1,7 +1,32 @@
-import {Filesystem}  from "@capacitor/filesystem";
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { useCallback } from 'react';
 
-const FOLDER_PATH = "handnotes-documents";
+export function useFilesystem() {
+    const readFile = useCallback<(path: string) => Promise<string|Blob>>(
+        (path) =>
+            Filesystem.readFile({
+                path,
+                directory: Directory.Cache,
+            }).then(result => result.data), []);
 
-export default async function createDirectory (name: string, ) {
+    const writeFile = useCallback<(path: string, data: string) => Promise<any>>(
+        (path, data) =>
+            Filesystem.writeFile({
+                path,
+                data,
+                directory: Directory.Cache,
+            }), []);
 
+    const deleteFile = useCallback<(path: string) => Promise<void>>(
+        (path) =>
+            Filesystem.deleteFile({
+                path,
+                directory: Directory.Cache,
+            }), []);
+
+    return {
+        readFile,
+        writeFile,
+        deleteFile,
+    };
 }

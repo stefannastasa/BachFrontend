@@ -1,3 +1,17 @@
 .scrollButton {
 
 }
+
+.listClass {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.itemClass {
+    padding: 0.5rem;
+    width: 180px;
+    display: flex;
+    flex: none;
+    align-content: center;
+    box-sizing: border-box;
+}

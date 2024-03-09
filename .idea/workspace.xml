@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8c94eb8a-37a5-4e58-bd32-378b317c1280" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/capacitor.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/capacitor.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/LoginScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/LoginScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/RegisterScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/RegisterScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/context/AuthProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/context/AuthProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/Gallery.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/Gallery.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/NoteCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/NoteCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/NoteGrid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/NoteGrid.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/NoteModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/NoteModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/NoteSearch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/NoteSearch.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/contexts/NotesProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/contexts/NotesProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/styles/Gallery.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/styles/Gallery.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/device/camera/DocumentScanner.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/camera/DocumentScanner.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/device/filesystem/FileSystem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/filesystem/FileSystem.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/api/noteApi.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/api/noteApi.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package.json" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2cOVi8AXJkCdyoZ3gOKU6DAfDhi" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/tefannastasa/BachelorsWorkspace/BachFrontend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "/Users/tefannastasa/BachelorsWorkspace/BachFrontend/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8c94eb8a-37a5-4e58-bd32-378b317c1280" name="Changes" comment="" />
+      <created>1707982737271</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1707982737271</updated>
+      <workItem from="1707982738619" duration="13473000" />
+      <workItem from="1708329443577" duration="2173000" />
+      <workItem from="1708333694259" duration="10561000" />
+      <workItem from="1708516077669" duration="21505000" />
+      <workItem from="1708611832978" duration="6000" />
+      <workItem from="1708617883637" duration="40000" />
+      <workItem from="1708629506831" duration="6339000" />
+      <workItem from="1709978468876" duration="19405000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>

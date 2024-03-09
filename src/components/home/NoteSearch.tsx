@@ -51,7 +51,7 @@ function NoteSearch(){
             return;
         }
         searchNotes?.(value);
-        console.log(`NoteSearch ${query}`)
+        console.log(`NoteSearch ${value}`)
 
     }
 

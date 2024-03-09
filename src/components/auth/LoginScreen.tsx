@@ -9,7 +9,7 @@ import {
     IonLabel,
     IonRow,
     IonText,
-    IonTitle,
+    IonTitle, IonToast,
     IonToolbar
 } from "@ionic/react";
 import { useHistory } from 'react-router-dom';
@@ -73,9 +73,8 @@ function LoginScreen(){
                 <IonButton color="tertiary" className={"ion-margin-top"} onClick={handleRegister}>
                     Register
                 </IonButton>
-                {isFailed &&
-                    <IonText>Authentication failed.</IonText>
-                }
+                <IonToast isOpen = {isFailed} duration={3000} message={authenticationError?.message}/>
+
             </IonContent>
 
         </>

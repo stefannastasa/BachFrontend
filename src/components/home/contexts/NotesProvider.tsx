@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import {NoteService} from "../../../utils/api/noteApi";
 import {AuthenticationContext} from "../../auth/context/AuthProvider";
 import {HomeStateContext} from "./HomeStateProvider";
+import {scanDocument} from "../../../device/camera/DocumentScanner";
+import {Directory, Filesystem} from "@capacitor/filesystem";
+import {Capacitor} from "@capacitor/core";
 
 type CreateNoteFn = (title: string, image_data: string[]) => Promise<any>;
 type FetchNotesFn = () => Promise<void>;
@@ -44,7 +47,7 @@ interface ActionProps {
 const initialState: NotesState = {
     fetching: false,
     creating: false,
-    size: 5,
+    size: 6,
 }
 
 
@@ -55,16 +58,17 @@ const reducer: (state: NotesState, action: ActionProps) => NotesState
             return {...state, fetching: true, fetchingError: null};
 
         case ActionType.FETCH_SUCCEEDED:
-            return {...state, fetching: false, notes: [...(state.notes || []), payload.notes].flat()};
+            const newNotes = [...(state.notes || [])]
+            return {...state, fetching: false, notes: [...newNotes, ...payload.notes]};
 
         case ActionType.FETCH_FAILED:
             return {...state, fetching: false, fetchingError: payload.error };
 
         case ActionType.SAVE_STARTED:
             return {...state, creating: true};
-        case ActionType.SAVE_SUCCEEDED:
 
-            return {...state, saving: false};
+        case ActionType.SAVE_SUCCEEDED:
+            return {...state, creating: false };
 
         case ActionType.SAVE_FAILED:
             return {...state, creating: false, createError: payload.error};
@@ -120,6 +124,44 @@ export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
       </NotesContext.Provider>
     );
 
+    async function fetchImages(notes: Note[]){
+        console.log(`starting to fetch ${notes.length} notes from aws...`)
+        const promises: Promise<void>[] = [];
+
+        for (let note of notes) {
+            for(let i = 0; i < note.imageUrls.length; ++i){
+                console.log(`Hello ${note.imageUrls[i]}`);
+                const promise = NoteService.awsGetImage(note.imageUrls[i])
+                    .then(objectKey => {
+
+                        Filesystem.getUri({path: objectKey, directory: Directory.Data})
+                            .then(uriResult => {
+                                note.imageUrls[i] = Capacitor.convertFileSrc(uriResult.uri);
+                            });
+                    });
+                promises.push(promise);
+            }
+        }
+        await Promise.all(promises);
+    }
+
+    async function uploadImages(id: string, images: string[]){
+        const promises: Promise<void>[] = [];
+
+        for (const image of images) {
+
+            const promise = NoteService.apiUploadImage(id, image)
+                .then(res => console.log(res.uploadStatus))
+                .catch(e => {
+                    console.log(`upload of file failed`);
+                    console.log(e);
+                });
+
+            promises.push(promise);
+        }
+        await Promise.all(promises);
+    }
+
     function getNotesEffect(){
         let canceled = false;
 
@@ -134,19 +176,18 @@ export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
         }
 
         async function fetchNotes(){
-
-
             try{
                 console.log('fetchnotes Started');
                 dispatch({type: ActionType.FETCH_STARTED});
-                const response = await NoteService.apiGetNotes(page, size);
+                let response = await NoteService.apiGetNotes(page, size);
+                await fetchImages(response.notes);
                 setPage(1);
-                console.log(`fetchnotes successful ${response.notes}`);
+                console.log(`fetchnotes Successful ${response.notes}`);
                 if(!canceled){
                     dispatch({type: ActionType.FETCH_SUCCEEDED, payload: {notes: response.notes}});
                 }
             }catch( e ){
-                console.log('fetchnotes failed');
+                console.log('fetchnotes Failed');
                 dispatch({type: ActionType.FETCH_FAILED, payload: {error: e}});
             }
         }
@@ -156,14 +197,21 @@ export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
 
     async function createNoteCallback(title: string, image_data: string[]){
         try{
-            console.log('saveNote started ');
+            console.log('saveNote started');
             dispatch({type: ActionType.SAVE_STARTED});
-            const response = await NoteService.apiCreateNote(title, image_data);
-            console.log('saveNote successful ');
-            dispatch({type: ActionType.SAVE_SUCCEEDED, payload: { note: response.createdNote} } );
+            const results = await scanDocument();
+            if( results !== null){
+                const response = await NoteService.apiCreateNote(title, image_data.length);
+                const note = response.createdNote;
+                console.log(`note ${note.id}`);
+                await uploadImages(note.id, results);
+
+                console.log('saveNote successful ');
+                dispatch({type: ActionType.SAVE_SUCCEEDED, payload: { note: response.createdNote} } );
+            }
             return true;
         }catch(e){
-            console.log('saveNote failed');
+            console.log('saveNote failed', e);
             dispatch({type: ActionType.SAVE_FAILED, payload: { error: e}});
         }
     }
@@ -173,6 +221,7 @@ export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
             console.log('fetchnotes Started');
             dispatch({type: ActionType.FETCH_STARTED});
             const response = await NoteService.apiGetNotes(page, size);
+            await fetchImages(response.notes);
             setPage(page+1);
             console.log('fetchnotes successful');
             dispatch({type: ActionType.FETCH_SUCCEEDED, payload: {notes: response.notes}});
@@ -185,14 +234,15 @@ export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
 
     async function searchNotesCallback(searchStr: string){
         try{
-            console.log(`fetchnotes Started ${searchStr}`);
-            dispatch({type: ActionType.FETCH_STARTED, payload:{query: searchStr}});
+            console.log(`searchnotes Started ${searchStr}`);
+            dispatch({type: ActionType.FETCH_STARTED});
             const response = await NoteService.apiSearchNotes(searchStr, page, size);
+            await fetchImages(response.notes);
             setPage(page+1);
-            console.log('fetchnotes successful');
+            console.log('searchnotes successful');
             dispatch({type: ActionType.FETCH_SUCCEEDED, payload: {notes: response.notes}});
         }catch( e ){
-            console.log('fetchnotes failed');
+            console.log('searchnotes failed');
             dispatch({type: ActionType.FETCH_FAILED, payload: {error: e}});
         }
 

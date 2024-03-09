@@ -25,6 +25,7 @@ function RegisterScreen(){
     const handleRegister = () => {
         console.log("register");
         AuthService.apiRegister(username, password);
+        history.push("/");
     }
 
     const handleBack = () => {

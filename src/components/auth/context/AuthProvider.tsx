@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import {AuthService} from "../../../utils/api/authApi";
-import {NoteService} from "../../../utils/api/noteApi";
 
 type loginFunction = (username?: string, password?: string) => void;
 
@@ -116,7 +115,6 @@ export const AuthenticationProvider: React.FC<AuthProviderProps>= ({children}) =
             }catch( error ){
                 if (canceled)
                     return;
-
                 setState({
                     ...state,
                     isFailed: true,
