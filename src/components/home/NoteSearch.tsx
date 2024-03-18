@@ -3,7 +3,7 @@ import {IonSearchbar} from "@ionic/react";
 import {addOutline, arrowBack} from "ionicons/icons";
 import {NotesContext} from "./contexts/NotesProvider";
 import {HomeStateContext} from "./contexts/HomeStateProvider";
-
+import debounce from "lodash.debounce";
 const enum FoundState {
     FOUND, NOT_FOUND, EMPTY
 }
@@ -19,10 +19,10 @@ function NoteSearch(){
         fetchNotes,
         query,
         pageReset,
-        createNote
+        createNote, fetching
         } = useContext(NotesContext);
 
-    const onSearchCb = useCallback(onSearchChange, []);
+    const onSearchCb = useCallback(onSearchChange, [searchText]);
 
     useEffect(() => {
         if(notes && notes.length > 0)
@@ -60,16 +60,20 @@ function NoteSearch(){
             console.log("creating note...");
             createNote?.(searchState, [""]);
             setSearchText("");
+        }else{
+            setSearchText("");
+            pageReset?.();
+            fetchNotes?.();
         }
 
     }
 
     return(
         <>
-            <IonSearchbar  placeholder="Search or create a note" onIonInput={
+            <IonSearchbar  placeholder="Search or create a note" debounce={50} onIonInput={
                 (ev) => {onSearchCb(ev.detail.value)}
             }
-              showCancelButton="focus"
+              showCancelButton={fetching ? "never" : "focus"}
               cancelButtonText={(isFound === FoundState.NOT_FOUND ?  "create" : "cancel" )}
               cancelButtonIcon={(isFound === FoundState.NOT_FOUND ? addOutline : arrowBack )}
               onIonCancel={onCancelButton}

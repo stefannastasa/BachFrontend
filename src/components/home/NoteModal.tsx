@@ -26,9 +26,13 @@ function NoteModal () {
             <IonModal
                 mode="md"
                 onIonModalDidDismiss={(ev) => {
-                    if (setModalState) {
-                        setModalState(false)
-                    }}}
+                        if (setModalState) {
+                            setModalState(false)
+                        }
+                        setContent(true);
+                    }
+
+                }
                 ref={modal}
                 isOpen={modalState}
                 initialBreakpoint={0.3}
@@ -53,16 +57,11 @@ function NoteModal () {
 
                         </IonSegment>
 
-                        {/*<IonButtons slot="end" >*/}
-                        {/*    <IonButton className={style.closeButtonStyle}>*/}
-                        {/*        <IonIcon icon={chevronUp}></IonIcon>*/}
-                        {/*    </IonButton>*/}
-                        {/*</IonButtons>*/}
                     </IonToolbar>
                 </IonHeader>
 
                 <IonContent className="ion-padding" color="secondary" >
-                    {content &&<IonText>
+                    {content && <IonText>
                         <h1>{noteState?.title}</h1>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ipsum nisl, vestibulum non nisi ac, feugiat gravida tortor. Aenean sollicitudin sed tortor nec tempus. Ut volutpat libero sem, ut vulputate mi condimentum volutpat. Maecenas imperdiet ipsum urna, non pretium felis congue condimentum. Etiam dapibus tincidunt luctus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In feugiat elit malesuada urna imperdiet ultrices pulvinar ac ipsum. Mauris tincidunt suscipit leo ut porta. In ullamcorper tristique tellus, eget euismod quam suscipit auctor. Ut viverra in augue eu dapibus. Aliquam placerat sem elit, id euismod risus lacinia a.
 

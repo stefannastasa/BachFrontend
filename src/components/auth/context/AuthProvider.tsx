@@ -43,6 +43,8 @@ export const AuthenticationProvider: React.FC<AuthProviderProps>= ({children}) =
     const logout = useCallback<logoutFunction>(logoutCb, []);
     const value = {login, logout, authenticationStarted, isAuthenticated, isAuthenticating, isFailed, authenticationError, logoutStarted, username};
     useEffect(authFlow, [authenticationStarted, logoutStarted]);
+
+
     return(
         <AuthenticationContext.Provider value = {value}>
             {children}

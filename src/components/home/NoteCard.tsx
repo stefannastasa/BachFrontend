@@ -30,7 +30,7 @@ const NoteCard: React.FC<NoteCardProps> = (props) => {
     return (
         <div style={{textAlign: 'center', width:'inherit'}} onClick={handleOnClick} >
             <IonCard color="tertiary" style={{height: '210px', width:"160px", alignSelf:'center'}} >
-                <IonImg src={note.imageUrls[0]} >
+                <IonImg src={note.thumbnailUrls[0]} >
 
                 </IonImg>
             </IonCard>

@@ -5,6 +5,7 @@ export interface Note {
     title: string,
     content: string,
     imageUrls: string[],
+    thumbnailUrls: string[],
     createdAt: Date,
     updatedAt: Date,
 }

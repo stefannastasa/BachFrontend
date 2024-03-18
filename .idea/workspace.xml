@@ -5,23 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8c94eb8a-37a5-4e58-bd32-378b317c1280" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/capacitor.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/capacitor.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/auth/LoginScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/LoginScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/auth/RegisterScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/RegisterScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/auth/context/AuthProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/context/AuthProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/Gallery.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/Gallery.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/home/NoteCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/NoteCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/NoteGrid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/NoteGrid.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/home/NoteModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/NoteModal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/home/NoteSearch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/NoteSearch.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/home/contexts/NotesProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/contexts/NotesProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/styles/Gallery.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/styles/Gallery.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/device/camera/DocumentScanner.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/camera/DocumentScanner.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/device/filesystem/FileSystem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/filesystem/FileSystem.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/api/noteApi.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/api/noteApi.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/model/Note.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/model/Note.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,24 +47,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/tefannastasa/BachelorsWorkspace/BachFrontend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "/Users/tefannastasa/BachelorsWorkspace/BachFrontend/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/tefannastasa/BachelorsWorkspace/BachFrontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/tefannastasa/BachelorsWorkspace/BachFrontend/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -85,7 +80,10 @@
       <workItem from="1708611832978" duration="6000" />
       <workItem from="1708617883637" duration="40000" />
       <workItem from="1708629506831" duration="6339000" />
-      <workItem from="1709978468876" duration="19405000" />
+      <workItem from="1709978468876" duration="19572000" />
+      <workItem from="1710173435104" duration="9572000" />
+      <workItem from="1710194952436" duration="2687000" />
+      <workItem from="1710422980878" duration="34779000" />
     </task>
     <servers />
   </component>

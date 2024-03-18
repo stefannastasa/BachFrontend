@@ -58,8 +58,13 @@ const reducer: (state: NotesState, action: ActionProps) => NotesState
             return {...state, fetching: true, fetchingError: null};
 
         case ActionType.FETCH_SUCCEEDED:
-            const newNotes = [...(state.notes || [])]
-            return {...state, fetching: false, notes: [...newNotes, ...payload.notes]};
+            let newNotes;
+            if(payload.search !== state.query){
+                newNotes = [...payload.notes];
+            }else{
+                newNotes = [...(state.notes || []), ...payload.notes];
+            }
+            return {...state, fetching: false, notes: newNotes, query: payload.search };
 
         case ActionType.FETCH_FAILED:
             return {...state, fetching: false, fetchingError: payload.error };
@@ -74,7 +79,7 @@ const reducer: (state: NotesState, action: ActionProps) => NotesState
             return {...state, creating: false, createError: payload.error};
 
         case ActionType.PAGE_RESET:
-            return {...state, notes: []};
+            return {...state, notes: [], query: ""};
         default:
             return state;
     }
@@ -84,6 +89,90 @@ export const NotesContext = React.createContext<NotesState>(initialState);
 
 interface NoteProviderProps {
     children: PropTypes.ReactNodeLike
+}
+
+async function fetchImages(notes: Note[]){
+    console.log(`starting to fetch ${notes.length} notes from aws...`);
+    try{
+        await Filesystem.stat({
+            path: `cache`,
+            directory: Directory.Data
+        });
+    }catch(e){
+        console.log("Cache dir doesnt exist, creating...")
+        await Filesystem.mkdir({
+            path: 'cache',
+            directory: Directory.Data
+        });
+    }
+
+    const cachedFiles = await Filesystem.readdir({
+        path: "cache",
+        directory: Directory.Data
+    });
+    const existingKeys = cachedFiles.files.map(e => e.name);
+
+
+    const step = 20;
+    for(let j = 0; j < notes.length; j += step) {
+        const notesSubarray = notes.slice(j, notes.length < j + step ? notes.length : j + step);
+        const promises: Promise<void>[] = [];
+        for(const note of notesSubarray){
+            for(let i = 0; i < note.imageUrls.length; ++i){
+                const image = note.imageUrls[i];
+                let promise;
+                if(existingKeys.indexOf(image) === -1){
+                    promise = NoteService.awsGetImage(image).then(key => {
+
+                        Filesystem.getUri({path: `cache/${key}`, directory: Directory.Data})
+                            .then(uri =>{
+                                note.imageUrls[i] = Capacitor.convertFileSrc(uri.uri);
+                            })
+
+                    }).catch(e => {
+                        console.log(e);
+                        throw e;
+                    });
+
+                }else{
+                    console.log(`Image ${image} found locally`);
+                    promise = Filesystem.getUri({path: `cache/${image}`, directory: Directory.Data})
+                        .then(uri => {
+                            note.imageUrls[i] = Capacitor.convertFileSrc(uri.uri);
+                        });
+                }
+
+                promises.push(promise);
+            }
+
+            for(let i = 0; i < note.thumbnailUrls.length; ++i){
+                const image = note.thumbnailUrls[i];
+                let promise;
+
+                if(existingKeys.indexOf(image) === -1){
+                    promise = NoteService.awsGetImage(image).then(key => {
+                        Filesystem.getUri({path: `cache/${key}`, directory: Directory.Data})
+                            .then(uri =>{
+                                note.thumbnailUrls[i] = Capacitor.convertFileSrc(uri.uri);
+                            });
+                    }).catch(e => {
+                        console.log(e);
+                        throw e;
+                    });
+
+                }else{
+                    console.log(`Image ${image} found locally`);
+                    promise = Filesystem.getUri({path: `cache/${image}`, directory: Directory.Data})
+                        .then(uri => {
+                            note.thumbnailUrls[i] = Capacitor.convertFileSrc(uri.uri);
+                        });
+                }
+                promises.push(promise);
+            }
+        }
+        await Promise.all(promises);
+    }
+
 }
 
 export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
@@ -124,26 +213,7 @@ export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
       </NotesContext.Provider>
     );
 
-    async function fetchImages(notes: Note[]){
-        console.log(`starting to fetch ${notes.length} notes from aws...`)
-        const promises: Promise<void>[] = [];
 
-        for (let note of notes) {
-            for(let i = 0; i < note.imageUrls.length; ++i){
-                console.log(`Hello ${note.imageUrls[i]}`);
-                const promise = NoteService.awsGetImage(note.imageUrls[i])
-                    .then(objectKey => {
-
-                        Filesystem.getUri({path: objectKey, directory: Directory.Data})
-                            .then(uriResult => {
-                                note.imageUrls[i] = Capacitor.convertFileSrc(uriResult.uri);
-                            });
-                    });
-                promises.push(promise);
-            }
-        }
-        await Promise.all(promises);
-    }
 
     async function uploadImages(id: string, images: string[]){
         const promises: Promise<void>[] = [];
@@ -151,7 +221,13 @@ export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
         for (const image of images) {
 
             const promise = NoteService.apiUploadImage(id, image)
-                .then(res => console.log(res.uploadStatus))
+                .then(res => {
+                    console.log(res.uploadStatus);
+                    Filesystem.deleteFile({
+                            path: `to_upload/${image}`,
+                            directory: Directory.Data
+                    });
+                })
                 .catch(e => {
                     console.log(`upload of file failed`);
                     console.log(e);
@@ -184,10 +260,10 @@ export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
                 setPage(1);
                 console.log(`fetchnotes Successful ${response.notes}`);
                 if(!canceled){
-                    dispatch({type: ActionType.FETCH_SUCCEEDED, payload: {notes: response.notes}});
+                    dispatch({type: ActionType.FETCH_SUCCEEDED, payload: {notes: response.notes, search: ""}});
                 }
             }catch( e ){
-                console.log('fetchnotes Failed');
+                console.log(`fetchnotes Failed ${e}`);
                 dispatch({type: ActionType.FETCH_FAILED, payload: {error: e}});
             }
         }
@@ -224,7 +300,7 @@ export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
             await fetchImages(response.notes);
             setPage(page+1);
             console.log('fetchnotes successful');
-            dispatch({type: ActionType.FETCH_SUCCEEDED, payload: {notes: response.notes}});
+            dispatch({type: ActionType.FETCH_SUCCEEDED, payload: {notes: response.notes, search: ""}});
         }catch( e ){
             console.log(`fetchnotes failed ${e}`);
             dispatch({type: ActionType.FETCH_FAILED, payload: {error: e}});
@@ -240,7 +316,7 @@ export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
             await fetchImages(response.notes);
             setPage(page+1);
             console.log('searchnotes successful');
-            dispatch({type: ActionType.FETCH_SUCCEEDED, payload: {notes: response.notes}});
+            dispatch({type: ActionType.FETCH_SUCCEEDED, payload: {notes: response.notes, search: searchStr}});
         }catch( e ){
             console.log('searchnotes failed');
             dispatch({type: ActionType.FETCH_FAILED, payload: {error: e}});

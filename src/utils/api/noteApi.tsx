@@ -3,8 +3,7 @@ import axios from "axios";
 import {baseConfig} from "./index";
 import {Note} from "../model/Note";
 import {Directory, Encoding, Filesystem} from "@capacitor/filesystem";
-
-
+import {Buffer} from "buffer";
 export interface GetResponse {
     notes: Note[],
 }
@@ -17,14 +16,20 @@ export interface UploadResponse {
 const notesUrl = `http://${config.baseUrl}/api/notes`;
 
 function getObjectKeyFromPresignedURL(presignedUrl: string) {
-    const result =  presignedUrl.match("\\/\\d+-[a-zA-Z0-9]+\\?") ;
-    if(result)
-        return result[0].slice(1, result[0].length-1);
+    const url = new URL(presignedUrl);
 
-    return null;
+    let objectPath = url.pathname;
+
+    let index1 = objectPath.indexOf("/");
+    let index2 = objectPath.indexOf("?");
+
+    const result = objectPath.slice(index1 + 1, index2 - 1);
+
+    return result;
 
 }
-
+const awsInstance = axios.create();
+delete awsInstance.defaults.headers.common["Authorization"];
 export const NoteService = {
 
     apiCreateNote: async (title: string, nr_of_images: number): Promise<CreateResponse> => {
@@ -41,7 +46,6 @@ export const NoteService = {
 
     apiGetNotes: async (page: number, size: number): Promise<GetResponse> => {
         try {
-
             const result = await axios.get(`${notesUrl}?page=${page}&size=${size}`, baseConfig);
             return result.data;
 
@@ -50,39 +54,27 @@ export const NoteService = {
         }
     },
 
-    awsGetImage: async (url: string): Promise<any> => {
+    awsGetImage: async (url: string): Promise<string> => {
         try{
-            console.log(url);
+
             const objectKey = getObjectKeyFromPresignedURL(url) || "";
-            console.log(objectKey);
-            let fileExists: boolean | null = null;
+            console.log(`Object key is ${objectKey}`);
 
-            try{
-                await Filesystem.stat({
-                    path: objectKey,
-                    directory: Directory.Data
-                });
-                fileExists = true;
-            }catch(e){
-                fileExists = false;
-            }
+            const result = await awsInstance.get(url, {
+                responseType: "arraybuffer"
+            });
+            const buffer = Buffer.from(result.data).toString("base64");
+            await Filesystem.writeFile({
+                data: buffer,
+                path: `cache/${objectKey}`,
+                directory: Directory.Data,
 
-            if(!fileExists){
-                const result = await axios.get(url, {
-                    responseType: "arraybuffer"
-                });
-                const blob = new Blob([result.data]);
-                await Filesystem.writeFile({
-                    data: blob,
-                    path: objectKey,
-                    directory: Directory.Data,
-
-                });
-            }
+            });
 
             return objectKey;
 
         }catch(e){
+            console.log(e);
             throw e;
         }
     },
@@ -98,21 +90,13 @@ export const NoteService = {
 
     apiUploadImage: async (id: string, filePath: string): Promise<UploadResponse> => {
         try {
-            let formData = new FormData();
-            const file = await Filesystem.readFile({
-                path: filePath,
-                directory: Directory.Data,
-                encoding: Encoding.UTF8
-            });
-            if(typeof file.data === "string"){
-                const encoder = new TextEncoder();
-                const uint8Array = encoder.encode(file.data);
-                const blob = new Blob([uint8Array], { type: 'text/plain' });
+            const file = await readFile(filePath);
 
-                formData.set("file", blob, filePath);
-            }else{
-                formData.set("file", file.data, filePath);
-            }
+            if (!file) throw new Error("Unable to read the specified file");
+
+
+            let formData = new FormData();
+            formData.append("file", file);
 
             const response = await axios.post(`${notesUrl}/upload?id=${id}`, formData, {
                 headers: {
@@ -121,8 +105,34 @@ export const NoteService = {
             });
             return response.data;
         } catch (e) {
+            // @ts-ignore
+            console.log(e.message);
             throw e;
         }
     }
 
+}
+
+const readFile = async(name: string) => {
+    const file = await Filesystem.readFile({
+        path: `to_upload/${name}`,
+        directory: Directory.Data,
+
+    });
+    if(typeof file.data === "string"){
+        const base64data = file.data;
+        const byteNumbers = atob(base64data).split('');
+
+        const byteArrays = new Uint8Array(byteNumbers.length);
+        for (let i = 0; i < byteNumbers.length; ++i){
+            byteArrays[i] = byteNumbers[i].charCodeAt(0);
+        }
+
+        const blob = new Blob([byteArrays]);
+
+        return new File([blob], name, {type: 'image/jpg'});
+
+    }else{
+        return file.data;
+    }
 }
