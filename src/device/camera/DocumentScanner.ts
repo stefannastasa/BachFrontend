@@ -53,7 +53,6 @@ async function rewriteFile(path: string, sourcePath: string){
     const image = await Filesystem.readFile({
         path: sourcePath
     })
-    console.log(image.data);
     return await Filesystem.writeFile({
         path,
         data: image.data,

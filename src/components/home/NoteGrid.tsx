@@ -58,7 +58,7 @@ function NoteGrid() {
 
     return (
         <>
-            { !fetching && !creating && notes &&
+            { notes &&
                 <VirtuosoGrid className="ion-content-scroll-host"
                 style={{height: '100%', width: '100%'}}
                 data={notes}
@@ -73,7 +73,7 @@ function NoteGrid() {
                 )}/>
 
             }
-            { (fetching || creating) &&
+            { (fetching || creating) && !notes &&
                 <IonSpinner style={{alignSelf:"center"}} color = "light"></IonSpinner>
             }
 

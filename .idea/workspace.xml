@@ -6,17 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="8c94eb8a-37a5-4e58-bd32-378b317c1280" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/auth/context/AuthProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/context/AuthProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/NoteCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/NoteCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/home/NoteGrid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/NoteGrid.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/home/NoteModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/NoteModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/home/NoteSearch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/NoteSearch.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/home/contexts/NotesProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/home/contexts/NotesProvider.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/device/camera/DocumentScanner.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/device/camera/DocumentScanner.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/api/noteApi.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/api/noteApi.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/model/Note.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/model/Note.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/api/authApi.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/api/authApi.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +81,7 @@
       <workItem from="1710173435104" duration="9572000" />
       <workItem from="1710194952436" duration="2687000" />
       <workItem from="1710422980878" duration="34779000" />
+      <workItem from="1710789253691" duration="6766000" />
     </task>
     <servers />
   </component>

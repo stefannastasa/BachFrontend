@@ -4,7 +4,7 @@ import {
     IonButton,
     IonButtons,
     IonContent, IonFab, IonFabButton,
-    IonHeader, IonIcon, IonImg, IonLabel,
+    IonHeader, IonIcon, IonImg, IonInfiniteScroll, IonLabel,
     IonModal,
     IonSegment,
     IonSegmentButton, IonTabBar, IonTabButton,
@@ -14,6 +14,8 @@ import {
 import {HomeStateContext} from "./contexts/HomeStateProvider";
 import style from "./styles/Modal.module.css"
 import {arrowDown, chevronBack, chevronUp} from "ionicons/icons";
+import {Swiper, SwiperSlide} from "swiper/react";
+
 type setState = (stat:boolean) => void;
 
 
@@ -74,9 +76,25 @@ function NoteModal () {
                             Maecenas sagittis diam id enim dignissim, et aliquet elit hendrerit. Nunc fringilla facilisis dui in dignissim. Nam in vehicula ligula. Nullam pulvinar libero ut vulputate imperdiet. Vivamus iaculis risus metus, nec consectetur sem congue nec. Nam ac mi id felis blandit iaculis. Nulla sed eros eros. Sed vestibulum egestas feugiat. Nunc non tempus mi. Duis at consequat orci, nec tristique urna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam sed diam quis mi rhoncus ornare. Etiam malesuada purus vitae dignissim hendrerit.</p>
                     </IonText> }
                     {!content &&
-                        <IonImg src={noteState?.imageUrls[0]}>
+                        <Swiper
+                            spaceBetween={50}
+                            slidesPerView={1}
+                            onSwiper={(swiper) => console.log(swiper)}
+                            style={{width: '100%', height:'100%'}}
+                            pagination={true}
+                            direction={"vertical"}
 
-                        </IonImg>
+                            // modules={[Pagination]}
+                        >
+                            {noteState?.imageUrls.map((img, index) => (
+                                <SwiperSlide key={index} style={{textAlign: 'center', display:'flex', justifyContent:'center', alignItems: 'center'}}>
+
+                                        <IonImg src={img} style={{display: 'block', width:'100%', height:"100%"}} ></IonImg>
+
+
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
                     }
                 </IonContent>
 

@@ -4,6 +4,7 @@ import axios from "axios";
 import {authConfig, baseConfig} from "./index";
 import config from "../../config.json";
 import {AuthenticationContext} from "../../components/auth/context/AuthProvider";
+import {Preferences} from "@capacitor/preferences";
 const loginUrl = `http://${config.baseUrl}/api/auth`;
 
 
@@ -30,15 +31,24 @@ export const AuthService = {
     },
 
     apiLogin: async (user?: string, pass?: string): Promise<LoginInterface> => {
-
-        try{
-            const response = await axios.post(loginUrl, {username: user, password: pass}, baseConfig);
-            const { token, username } = response.data;
-            AuthService.setAuthToken(token);
-            return {user: username};
-        }catch( e ){
-            console.log(e);
-            throw e;
+        const mem_username = await Preferences.get({key: "user"});
+        const mem_token = await Preferences.get({key: "token"});
+        if(!mem_username.value || !mem_token.value){
+            try{
+                const response = await axios.post(loginUrl, {username: user, password: pass}, baseConfig);
+                const { token, username } = response.data;
+                await Preferences.set({key: "user", value: username});
+                await Preferences.set({key: "token", value: token});
+                AuthService.setAuthToken(token);
+                return {user: username};
+            }catch( e ){
+                console.log(e);
+                throw e;
+            }
+        }
+        else{
+            AuthService.setAuthToken(mem_token.value);
+            return {user: mem_username.value};
         }
 
     },
@@ -54,6 +64,7 @@ export const AuthService = {
 
     },
     apiLogout: async () => {
+        await Preferences.clear();
         AuthService.setAuthToken();
     }
 

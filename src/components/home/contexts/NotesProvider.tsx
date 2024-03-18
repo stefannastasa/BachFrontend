@@ -62,7 +62,12 @@ const reducer: (state: NotesState, action: ActionProps) => NotesState
             if(payload.search !== state.query){
                 newNotes = [...payload.notes];
             }else{
-                newNotes = [...(state.notes || []), ...payload.notes];
+                newNotes = [...(state.notes || [])];
+                for(const note of payload.notes){
+                    if(newNotes.indexOf(note) === -1){
+                        newNotes.push(note);
+                    }
+                }
             }
             return {...state, fetching: false, notes: newNotes, query: payload.search };
 
@@ -91,8 +96,7 @@ interface NoteProviderProps {
     children: PropTypes.ReactNodeLike
 }
 
-async function fetchImages(notes: Note[]){
-    console.log(`starting to fetch ${notes.length} notes from aws...`);
+async function checkCacheFolder(){
     try{
         await Filesystem.stat({
             path: `cache`,
@@ -105,13 +109,35 @@ async function fetchImages(notes: Note[]){
             directory: Directory.Data
         });
     }
+}
 
+async function fetchExistingKeys(){
     const cachedFiles = await Filesystem.readdir({
         path: "cache",
         directory: Directory.Data
     });
-    const existingKeys = cachedFiles.files.map(e => e.name);
+    return cachedFiles.files.map(e => e.name);
+}
 
+function getObjectKeyFromPresignedURL(presignedUrl: string) {
+    const url = new URL(presignedUrl);
+
+    let objectPath = url.pathname;
+
+    let index1 = objectPath.indexOf("/");
+    let index2 = objectPath.indexOf("?");
+
+    const result = objectPath.slice(index1 + 1, index2 - 1);
+
+    return result;
+
+}
+
+async function fetchImages(notes: Note[]){
+    console.log(`starting to fetch ${notes.length} notes from aws...`);
+
+    const existingKeys = await fetchExistingKeys();
+    console.log(existingKeys);
 
     const step = 20;
     for(let j = 0; j < notes.length; j += step) {
@@ -119,10 +145,12 @@ async function fetchImages(notes: Note[]){
         const promises: Promise<void>[] = [];
         for(const note of notesSubarray){
             for(let i = 0; i < note.imageUrls.length; ++i){
-                const image = note.imageUrls[i];
+                const imageUrl = note.imageUrls[i];
+                const image = getObjectKeyFromPresignedURL(imageUrl) || "";
                 let promise;
+                console.log(image);
                 if(existingKeys.indexOf(image) === -1){
-                    promise = NoteService.awsGetImage(image).then(key => {
+                    promise = NoteService.awsGetImage(imageUrl).then(key => {
 
                         Filesystem.getUri({path: `cache/${key}`, directory: Directory.Data})
                             .then(uri =>{
@@ -146,11 +174,12 @@ async function fetchImages(notes: Note[]){
             }
 
             for(let i = 0; i < note.thumbnailUrls.length; ++i){
-                const image = note.thumbnailUrls[i];
+                const imageUrl = note.imageUrls[i];
+                const image = getObjectKeyFromPresignedURL(imageUrl) || "";
                 let promise;
 
                 if(existingKeys.indexOf(image) === -1){
-                    promise = NoteService.awsGetImage(image).then(key => {
+                    promise = NoteService.awsGetImage(imageUrl).then(key => {
                         Filesystem.getUri({path: `cache/${key}`, directory: Directory.Data})
                             .then(uri =>{
                                 note.thumbnailUrls[i] = Capacitor.convertFileSrc(uri.uri);
@@ -220,7 +249,7 @@ export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
 
         for (const image of images) {
 
-            const promise = NoteService.apiUploadImage(id, image)
+            const promise = await NoteService.apiUploadImage(id, image)
                 .then(res => {
                     console.log(res.uploadStatus);
                     Filesystem.deleteFile({
@@ -233,9 +262,9 @@ export const NotesProvider: React.FC<NoteProviderProps> = ({children}) => {
                     console.log(e);
                 });
 
-            promises.push(promise);
+            // promises.push(promise);
         }
-        await Promise.all(promises);
+        // await Promise.all(promises);
     }
 
     function getNotesEffect(){
